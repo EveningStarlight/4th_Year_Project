@@ -43,11 +43,11 @@ socket.on("candidate", (id, candidate) => {
 });
 
 socket.on("connect", () => {
-  socket.emit("watcher");
+  socket.emit("headset");
 });
 
-socket.on("broadcaster", () => {
-  socket.emit("watcher");
+socket.on("streamer", () => {
+  socket.emit("headset");
 });
 
 window.onunload = window.onbeforeunload = () => {

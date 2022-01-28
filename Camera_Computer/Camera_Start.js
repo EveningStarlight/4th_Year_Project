@@ -33,7 +33,7 @@ function gotStream(stream) {
       option => option.text === stream.getVideoTracks()[0].label
     );
     videoElement.srcObject = stream;
-    socket.emit("broadcaster");
+    socket.emit("streamer");
   }
 
 function handleError(error) {

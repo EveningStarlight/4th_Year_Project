@@ -1,5 +1,5 @@
 const peerConnections = {};
-let numberOfWatchers = 0;
+let numberOfheadsets = 0;
 const config = {
   iceServers: [
     { 
@@ -19,8 +19,8 @@ socket.on("answer", (id, description) => {
   peerConnections[id].setRemoteDescription(description);
 });
 
-socket.on("watcher", id => {
-  numberOfWatchers += 1;
+socket.on("headset", id => {
+  numberOfheadsets += 1;
   const peerConnection = new RTCPeerConnection(config);
   peerConnections[id] = peerConnection;
 
@@ -34,7 +34,7 @@ socket.on("watcher", id => {
   };
 
   peerConnection.addEventListener('connectionstatechange', event => {
-    updateConnection(peerConnections[id],numberOfWatchers);
+    updateConnection(peerConnections[id],numberOfheadsets);
   });
 
   peerConnection
@@ -46,7 +46,7 @@ socket.on("watcher", id => {
 });
 
 socket.on("candidate", (id, candidate) => {
-  updateConnection(peerConnections[id],numberOfWatchers);
+  updateConnection(peerConnections[id],numberOfheadsets);
   peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
 });
 
@@ -54,8 +54,8 @@ window.onunload = window.onbeforeunload = () => {
   socket.close();
 };
 
-function updateConnection(connection, numberOfWatchers){
-  document.getElementById("numOfWatchers").innerHTML = "Number of Watchers: " + numberOfWatchers;
+function updateConnection(connection, numberOfheadsets){
+  document.getElementById("numOfheadsets").innerHTML = "Number of headsets: " + numberOfheadsets;
   if(connection.connectionState === "connected"){
     document.getElementById("circle").style.background = "green";
     document.getElementById("connectionStatus").innerHTML = connection.connectionState;
@@ -68,7 +68,7 @@ function updateConnection(connection, numberOfWatchers){
     document.getElementById("circle").style.background = "blue";
     document.getElementById("connectionStatus").innerHTML = connection.connectionState;
   }
-  if(numberOfWatchers === 0){
+  if(numberOfheadsets === 0){
     document.getElementById("circle").style.background = "red";
     document.getElementById("connectionStatus").innerHTML = connection.connectionState;
   }

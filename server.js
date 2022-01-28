@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-let broadcaster;
+let streamer;
 const port = 4040;
 
 const http = require("http");
@@ -12,12 +12,12 @@ app.use(express.static(__dirname));
 
 io.sockets.on("error", e => console.log(e));
 io.sockets.on("connection", socket => {
-  socket.on("broadcaster", () => {
-    broadcaster = socket.id;
-    socket.broadcast.emit("broadcaster");
+  socket.on("streamer", () => {
+    streamer = socket.id;
+    socket.broadcast.emit("streamer");
   });
-  socket.on("watcher", () => {
-    socket.to(broadcaster).emit("watcher", socket.id);
+  socket.on("headset", () => {
+    socket.to(streamer).emit("headset", socket.id);
   });
   socket.on("offer", (id, message) => {
     socket.to(id).emit("offer", socket.id, message);
@@ -29,7 +29,7 @@ io.sockets.on("connection", socket => {
     socket.to(id).emit("candidate", socket.id, message);
   });
   socket.on("disconnect", () => {
-    socket.to(broadcaster).emit("disconnectPeer", socket.id);
+    socket.to(streamer).emit("disconnectPeer", socket.id);
   });
 });
 server.listen(port, () => console.log(`Server is running on port ${port}`));

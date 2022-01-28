@@ -1,6 +1,6 @@
 socket.on("disconnectPeer", id => {
     peerConnections[id].close();
-    numberOfWatchers -= 1;
-    updateConnection(peerConnections[id],numberOfWatchers);
+    numberOfheadsets -= 1;
+    updateConnection(peerConnections[id],numberOfheadsets);
     delete peerConnections[id];
   });
